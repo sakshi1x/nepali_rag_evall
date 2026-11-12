@@ -1,0 +1,37 @@
+Measuring Nepali RAG on the Constitution of Nepal
+Project write-up (draft). Text in [brackets] is for me to fill in or confirm.
+The problem
+When a chatbot answers questions from a Nepali document, how do you know the answers are right, and that they come from the document rather than the model's imagination? I wanted to actually measure this across the whole pipeline: reading the text, finding the right passage, and writing the answer. I also wanted to know whether an AI judge grades answers the way a careful person would.
+What I built
+A small evaluation setup I can re-run, using one document: the Constitution of Nepal.
+1. OCR. I ran Tesseract (Nepali) on all 183 pages, checked the output against the page images, and split it into 311 chunks by Article.
+2. Test questions. An AI generated 180 Nepali questions, which I filtered down to 177. I also wrote 5 baseline questions myself.
+3. Retrieval. I compared BM25 with BGE-M3 using Recall@5 and MRR.
+4. Answers. I labeled 30 answers by hand. No AI was involved in the labeling.
+5. Judges. I compared two LLM judges against my labels, looking at agreement, Cohen's kappa and false positives.
+6. Fixes. I tried three, one change at a time.
+7. Demo. A small Streamlit page. Everything together cost about $2.87 in API fees.
+What I found
+Retrieval was nearly a tie on the generated questions. BM25 scored Recall@5 0.955 and MRR 0.862. BGE-M3 scored 0.966 and 0.848. On my 5 hand-written questions the gap showed up: BGE-M3 put the right passage first 5 out of 5 times, and BM25 only 3 out of 5.
+Answers. Of the 30 I labeled, 25 were correct, 1 was wrong, and 4 said "not found." All 4 "not found" cases were retrieval misses, not generation problems.
+Judges. Opus 5.5 and Haiku 5.5 gave identical verdicts: 96.7% agreement with me, kappa 0.889, and 0 false positives out of 5. Haiku cost about 1/34 as much, so for this task the cheap judge was enough.
+Fixes. The best one was hybrid retrieval (BM25 + BGE-M3), which raised Recall@5 from 0.966 to 0.989 at no cost. Adding neighbouring chunks fixed the one confidently wrong answer (q108). [Pending: my labels for the Step 6 answers.]
+What went wrong
+• The "Unicode" PDF was broken. The correct word "बमोजिम" appeared 0 times, while the corrupted "बमोजजम" appeared 712 times. My first plan was to skip the broken text, but that kept only 0.4% of the words. So I switched to OCR.
+• OCR missed Article numbers printed in the margin. It found 261 of 308 headings, so some Articles got merged into one chunk. That caused q108: the model confidently answered with the Article 4 definition of the state when the question asked about the nation in Article 3.
+• The "quote first" prompt fix failed. The model did quote a real sentence, but it was about the wrong subject.
+• Both judges wrongly rejected a correct answer (q111). They only saw one evidence sentence, not the whole Article.
+• I made a labeling mistake on q108, and the judges caught it.
+What I unlearned
+(Drawn from the log. Rewrite anything that isn't true for you.)
+• I thought my PDF was already Unicode text, so OCR was out of scope. The text layer was broken, and OCR turned out to be the most important step.
+• I expected the hard part of Nepali to be word forms, numerals and dates, and that normalization would fix it. The real failures were in extraction, chunking and retrieval. I never needed normalization.
+• I assumed a stricter prompt would stop wrong answers. A prompt can't fix a retrieval miss. Better context did.
+• I assumed that if two judges agree they're right, and that my labels are ground truth. The judges agreed with each other and were both wrong on q111, and they were right about my q108 label.
+• I assumed copy-pasted or AI-retyped text was good enough as a source. It silently changed spellings. Only the page image counts.
+• [Your own: anything that surprised you personally.]
+How I used AI
+I used Claude as a coding agent working under written instructions. I only revised those instructions after real failures (v1, then v2 for OCR, then v3 for the quote and heading fixes, then a final version). It worked one step at a time, showed me the cost before every paid run, and logged everything, including outputs I rejected, in log/log.md (25 entries). Claude also interviewed me to draft my intent.md. For the baseline Q&A, Gemini Notebook helped me write the 5 pairs. [Confirm: the log says Gemini, which conflicts with my earlier "no AI" note.]
+Models: Opus 5.5 generated the questions, Sonnet 5.5 answered them, and Opus 5.5 and Haiku 5.5 judged.
+What I kept for myself: the 30 labels, every scope and model decision (using OCR, picking a cheaper answer model, counting "not found" as wrong, choosing which fixes to try), and re-checking disputed answers against the source.
+What I rejected: the "skip broken text" plan, Opus for answering (too expensive), the AI-retyped quotes, and the quote-first fix once it failed.

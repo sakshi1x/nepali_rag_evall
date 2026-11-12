@@ -1,0 +1,7 @@
+﻿metric,before (ans-v1),after (ans-v2 quote-first),change
+"retrieval misses answered ""not found"" (of 5)",4,4,0
+q108 confident wrong answer (1 = still answered),1,1,0
+"previously answered questions now ""not found""",0,0,0
+quotes failing the in-chunk check,n/a,0,
+"cost USD (Sonnet 5.5, 30 calls)",0.31,0.36,0.05
+human-labeled correct answers (of 30),25,pending my labels,

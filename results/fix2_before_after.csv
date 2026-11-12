@@ -1,0 +1,5 @@
+metric,before (BGE-M3 only),after (hybrid RRF),change
+Recall@5 (177 generated questions),0.966,0.989,0.023
+MRR (177 generated questions),0.848,0.883,0.035
+misses (gold not in top 5),6,2,-4
+baseline questions with gold at rank 1 (of 5),5,5,0

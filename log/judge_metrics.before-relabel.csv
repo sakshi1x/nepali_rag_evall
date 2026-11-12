@@ -1,0 +1,3 @@
+﻿judge,prompt,n,agreement,cohen_kappa,false_positive_rate,false_positives,false_negatives,human_wrong,invalid_json_retried
+claude-opus-5-5,judge-v1,30,0.933,0.762,0.0,0,2,4,0
+claude-haiku-5-5,judge-v1,30,0.933,0.762,0.0,0,2,4,0

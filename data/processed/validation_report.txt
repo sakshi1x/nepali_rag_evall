@@ -1,0 +1,24 @@
+pages processed:           183
+chunks extracted:          350
+chunks retained (clean):   5
+chunks with nothing usable:345
+sentences rejected:        1429
+usable text retained:      0.4% of words
+rejected sentences by reason:
+  vowel sign at start of a word: 1131
+  two vowel signs in a row: 187
+  too short: 48
+  known broken form: बमोजजम: 19
+  known broken form: रिने: 18
+  clean, but chunk too small after filtering: 16
+  known broken form: पमन: 3
+  known broken form: गनव: 3
+  known broken form: मममि: 2
+  known broken form: अमभ: 1
+  known broken form: प्रमिमनमध: 1
+baseline evidence quotes in retained text:
+  MISSING नेपालको राजधानी काठमाडौंमा रहनेछ ।
+  MISSING प्रतिनिधि सभामा देहाय बमोजजमका दुई सय पचहत्तर सदस्य रहनेछन्
+  MISSING देवनागरी लिपिमा लेखिने नेपाली भाषा नेपालको सरकारी कामकाजको भ
+  MISSING यो संविधान संवत् दुई हजार बहत्तर साल असोज महिनाको तीन गतेदेख
+  MISSING नेपालको राष्ट्रिय फूल लालीगुराँस, राष्ट्रिय रङ सिम्रिक, राष्

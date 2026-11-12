@@ -1,0 +1,4 @@
+fix,what changed (everything else identical),measured on,before,after,cost,result
+1 quote-first prompt (ans-v2),answer prompt only + quote-in-chunks check,30 labeling questions,"retrieval misses answered not found 4/5; q108 confident wrong","4/5; q108 still confident wrong",$0.36,no improvement (model quoted the wrong-subject Article 4 sentence)
+2 hybrid retrieval (RRF of BM25 + BGE-M3 top 5),retrieval only (saved Step 3 lists),177 generated questions,"Recall@5 0.966, MRR 0.848, misses 6","Recall@5 0.989, MRR 0.883, misses 2 (q031, q108)",$0 retrieval + $0.06 to re-answer 4,"improved; q016/q019/q020/q169 went from not found to real answers (labels pending)"
+3 neighbour chunks (hybrid top 3 + 3 before / 2 after),context window only,177 generated questions,"gold in context 175/177 (top 5, ~841 words)","gold in context 176/177 (~2,050 words, ~2.4x tokens); only q031 left",$0 measure + $0.02 to re-answer q108,"q108 now answers with the Article 3 traits (label pending)"
