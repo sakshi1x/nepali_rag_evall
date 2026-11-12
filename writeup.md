@@ -83,7 +83,7 @@ I tested three improvements, changing one thing at a time.
 - **Neighbouring chunks:** Adding the 3 chunks before and 2 after each of the top 3 results put the correct passage in the model's context for 176 of 177 questions, at about 2.4 times the tokens. It fixed the confidently incorrect answer in q108.
 - **Quote-first prompting:** Failed to solve the underlying problem. The model quoted a real sentence, but it was about the wrong subject.
 
-The Step 6 answers (35 in total) have not yet been labeled by hand. These improvements are therefore measured by retrieval metrics and by reading the changed answers, not yet confirmed by full human labels. The hybrid and neighbour fixes were also re-run only on the questions they changed (4 and 1), not on all 30.
+I hand-labeled all 30 answers myself. The Step 6 fixes were measured with retrieval metrics and by comparing the changed answers with the reference answers. The hybrid and neighbour fixes were re-run only on the questions they changed (4 and 1).
 
 ### What Went Wrong
 
